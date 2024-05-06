@@ -24,7 +24,5 @@ spec:
           ports:
             - containerPort: 5000
           envFrom:
-            - configMapRef:
-                name: auth-configmap
             - secretRef:
                 name: auth-secret
