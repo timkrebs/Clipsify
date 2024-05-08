@@ -35,10 +35,10 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "clipifyauthservice"
+  AZURE_CONTAINER_REGISTRY: "clipify"
   CONTAINER_NAME: "auth"
   RESOURCE_GROUP: "rg-clipify"
-  CLUSTER_NAME: "your-cluster-name"
+  CLUSTER_NAME: "clipifyAKSCluster"
   DEPLOYMENT_MANIFEST_PATH: "app/auth/manifests/auth-deploy.yaml"
 
 jobs:
