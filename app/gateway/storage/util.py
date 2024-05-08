@@ -22,9 +22,7 @@ def upload(f, fs, channel, user_profile):
             exchange="",
             routing_key="video",
             body=json.dumps(message),
-            properties=pika.BasicProperties(
-                delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
-            ),
+            properties=pika.BasicProperties(delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE),
         )
     except Exception as err:
         print(err)
