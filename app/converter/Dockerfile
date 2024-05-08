@@ -10,4 +10,4 @@ COPY ./requirements.txt /app
 RUN pip install --no-cache-dir --requirement /app/requirements.txt
 COPY . /app
 
-CMD ["python3", "consumer.py"]
+CMD ["python3", "con_consumer.py"]
