@@ -16,9 +16,9 @@ if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 server = Flask(__name__)
-server.secret_key = env.get("APP_SECRET_KEY")
+server.secret_key = env.get("APPSECRETKEY")
 
-CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
+CONNECTION_STRING = env.get("MONGOCONNECTIONSTRING")
 client = pymongo.MongoClient(CONNECTION_STRING)
 try:
     client.server_info()  # validate connection string
