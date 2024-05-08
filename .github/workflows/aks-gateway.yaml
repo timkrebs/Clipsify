@@ -11,7 +11,11 @@ env:
     CLUSTER_RESOURCE_GROUP: rg-clipify
     CONTAINER_NAME: gateway
     DEPLOYMENT_MANIFEST_PATH: |
+        ./app/gateway/manifests/configmap.yaml
         ./app/gateway/manifests/gateway-deploy.yaml
+        ./app/gateway/manifests/ingress.yaml
+        ./app/gateway/manifests/secret.yaml
+        ./app/gateway/manifests/service.yaml
 jobs:
     buildImage:
         permissions:
@@ -27,7 +31,7 @@ jobs:
                 subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
                 tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             - name: Build and push image to ACR
-              run: cd app/gateway/ && az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} .
+              run: az acr build --image ${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.ACR_RESOURCE_GROUP }} -f ./app/gateway/Dockerfile .
     deploy:
         permissions:
             actions: read
