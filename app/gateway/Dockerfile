@@ -12,4 +12,4 @@ COPY . /app
 
 EXPOSE 8080
 
-CMD ["python3", "gatewayserver.py"]
+CMD ["python3", "gateway.py"]
