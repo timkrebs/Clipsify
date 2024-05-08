@@ -11,7 +11,11 @@ env:
     CLUSTER_RESOURCE_GROUP: rg-clipify
     CONTAINER_NAME: gateway
     DEPLOYMENT_MANIFEST_PATH: |
+        ./app/gateway/manifests/configmap.yaml
         ./app/gateway/manifests/gateway-deploy.yaml
+        ./app/gateway/manifests/ingress.yaml
+        ./app/gateway/manifests/secret.yaml
+        ./app/gateway/manifests/service.yaml
 jobs:
     buildImage:
         permissions:
