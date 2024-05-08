@@ -18,6 +18,7 @@ platformdirs>=2.5.1
 proglog>=0.1.9
 pylint>=2.12.2
 pymongo>=4.0.1
+python-dotenv
 requests>=2.27.1
 toml>=0.10.2
 tqdm>=4.62.3
