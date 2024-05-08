@@ -1,19 +1,31 @@
 import os
 import sys
+from os import environ as env
 
 import gridfs
 import pika
+import pymongo
 from convert import to_mp3
-from pymongo import MongoClient
+from dotenv import find_dotenv, load_dotenv
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 
 
 def main():
-    client = MongoClient("host.minikube.internal", 27017)
-    db_videos = client.videos
-    db_mp3s = client.mp3s
-    # gridfs
-    fs_videos = gridfs.GridFS(db_videos)
-    fs_mp3s = gridfs.GridFS(db_mp3s)
+    CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
+    client = pymongo.MongoClient(CONNECTION_STRING)
+    try:
+        client.server_info()  # validate connection string
+    except pymongo.errors.ServerSelectionTimeoutError:
+        raise TimeoutError(
+            "Invalid API for MongoDB connection string or timed out when attempting to connect"
+        )
+    video_db = client["videos"]
+    mp3_db = client["mp3"]
+    fs_videos = gridfs.GridFS(video_db)
+    fs_mp3s = gridfs.GridFS(mp3_db)
 
     # rabbitmq connection
     connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbitmq"))
