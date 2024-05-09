@@ -29,13 +29,28 @@ spec:
             - name: MONGO_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname
-                  key: MONGOCONNECTIONSTRING
+                  name: azure-kvname-user-msi
+                  key: MONGO-CONNECTION-STRING
             - name: APP_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname
-                  key: APPSECRETKEY
+                  name: azure-kvname-user-msi
+                  key: APP-SECRET-KEY
+            - name: AUTH0_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: azure-kvname-user-msi
+                  key: AUTH0-DOMAIN
+            - name: AUTH0_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: azure-kvname-user-msi
+                  key: AUTH0-CLIENT-SECRET
+            - name: AUTH0_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: azure-kvname-user-msi
+                  key: AUTH0-CLIENT-ID
           envFrom:
             - configMapRef:
                 name: gateway-configmap
@@ -45,4 +60,4 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "azure-kvname"
+              secretProviderClass: "azure-kvname-user-msi"
