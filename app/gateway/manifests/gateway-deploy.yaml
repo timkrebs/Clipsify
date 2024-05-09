@@ -21,43 +21,32 @@ spec:
       containers:
         - name: gateway
           image: clipify.azurecr.io/gateway
-          volumeMounts:
-            - name: secrets-store-inline
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
           env:
             - name: MONGO_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
-                  name: MONGO-CONNECTION-STRING
-                  key: MONGO-CONNECTION-STRING
+                  name: kv-secrets
+                  key: mongo-connection-string
             - name: APP_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: APP-SECRET-KEY
-                  key: APP-SECRET-KEY
+                  name: kv-secrets
+                  key: app-secret-key
             - name: AUTH0_DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: AUTH0-DOMAIN
-                  key: AUTH0-DOMAIN
+                  name: kv-secrets
+                  key: auth0-domain
             - name: AUTH0_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: AUTH0-CLIENT-SECRET
-                  key: AUTH0-CLIENT-SECRET
+                  name: kv-secrets
+                  key: auth0-client-secret
             - name: AUTH0_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: AUTH0-CLIENT-ID
-                  key: AUTH0-CLIENT-ID
+                  name: kv-secrets
+                  key: auth0-client-id
           envFrom:
             - configMapRef:
                 name: gateway-configmap
-      volumes:
-        - name: secrets-store-inline
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "azure-kvname-user-msi"
