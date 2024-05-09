@@ -47,6 +47,13 @@ spec:
                 secretKeyRef:
                   name: kv-secrets
                   key: auth0-client-id
+          resources:
+            limits:
+              cpu: "2"
+              memory: "1GIB"
+            requests:
+              cpu: "2"
+              memory: "1GIB"
           envFrom:
             - configMapRef:
                 name: gateway-configmap
