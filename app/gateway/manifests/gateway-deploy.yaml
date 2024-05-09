@@ -47,7 +47,6 @@ spec:
                 secretKeyRef:
                   name: kv-secrets
                   key: auth0-client-id
-
           envFrom:
             - configMapRef:
                 name: gateway-configmap
