@@ -29,27 +29,27 @@ spec:
             - name: MONGO_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname-user-msi
+                  name: MONGO-CONNECTION-STRING
                   key: MONGO-CONNECTION-STRING
             - name: APP_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname-user-msi
+                  name: APP-SECRET-KEY
                   key: APP-SECRET-KEY
             - name: AUTH0_DOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname-user-msi
+                  name: AUTH0-DOMAIN
                   key: AUTH0-DOMAIN
             - name: AUTH0_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname-user-msi
+                  name: AUTH0-CLIENT-SECRET
                   key: AUTH0-CLIENT-SECRET
             - name: AUTH0_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: azure-kvname-user-msi
+                  name: AUTH0-CLIENT-ID
                   key: AUTH0-CLIENT-ID
           envFrom:
             - configMapRef:
