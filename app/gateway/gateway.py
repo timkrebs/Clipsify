@@ -1,5 +1,5 @@
 import json
-from os import environ as env
+import os
 from urllib.parse import quote_plus, urlencode
 
 import gridfs
@@ -16,9 +16,11 @@ if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 server = Flask(__name__)
-server.secret_key = env.get("APP_SECRET_KEY")
+#server.secret_key = env.get("APP_SECRET_KEY")
+#CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
+server.secret_key = os.getenv("APP_SECRET_KEY")
+CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
 
-CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
 client = pymongo.MongoClient(CONNECTION_STRING)
 try:
     client.server_info()  # validate connection string
@@ -81,7 +83,7 @@ def upload():
 @server.route("/download", methods=["GET"])
 @requires_auth
 def download():
-    user_profile = session.get("user")  # .get("userinfo")
+    user_profile = session.get("user")
 
     if user_profile:
         fid_string = request.args.get("fid")
@@ -103,12 +105,14 @@ oauth = OAuth(server)
 
 oauth.register(
     "auth0",
-    client_id=env.get("AUTH0_CLIENT_ID"),
-    client_secret=env.get("AUTH0_CLIENT_SECRET"),
+    #client_id=env.get("AUTH0_CLIENT_ID"),
+    #client_secret=env.get("AUTH0_CLIENT_SECRET")
+    client_id = os.getenv("AUTH0_CLIENT_ID"),
+    client_secret=os.getenv("AUTH0_CLIENT_SECRET"),
     client_kwargs={
         "scope": "openid profile email",
     },
-    server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration',
+    server_metadata_url=f'https://{os.getenv("AUTH0_DOMAIN")}/.well-known/openid-configuration',
 )
 
 
@@ -139,12 +143,12 @@ def logout():
     session.clear()
     return redirect(
         "https://"
-        + env.get("AUTH0_DOMAIN")
+        + os.getenv("AUTH0_DOMAIN")#env.get("AUTH0_DOMAIN")
         + "/v2/logout?"
         + urlencode(
             {
                 "returnTo": url_for("home", _external=True),
-                "client_id": env.get("AUTH0_CLIENT_ID"),
+                "client_id": os.getenv("AUTH0_CLIENT_ID") #env.get("AUTH0_CLIENT_ID"),
             },
             quote_via=quote_plus,
         )
