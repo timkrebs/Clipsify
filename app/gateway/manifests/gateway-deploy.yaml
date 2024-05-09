@@ -49,11 +49,11 @@ spec:
                   key: auth0-client-id
           resources:
             limits:
-              cpu: "2"
-              memory: "1GIB"
+              cpu: "1"
+              memory: "512Mi"
             requests:
-              cpu: "2"
-              memory: "1GIB"
+              cpu: "0.5"
+              memory: "256Mi"
           envFrom:
             - configMapRef:
                 name: gateway-configmap
