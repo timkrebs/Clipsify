@@ -5,7 +5,6 @@ from urllib.parse import quote_plus, urlencode
 import gridfs
 import pika
 import pymongo
-import logging
 from authlib.integrations.flask_client import OAuth
 from bson.objectid import ObjectId
 from decorators import requires_auth
@@ -21,12 +20,6 @@ server = Flask(__name__)
 #CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
 server.secret_key = os.getenv("APP_SECRET_KEY")
 CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
-logging.debug(f"Connection string: {CONNECTION_STRING}")
-logging.debug(f"App secret key: {server.secret_key}")
-logging.debug(f"Auth0 client id: {os.getenv('AUTH0_CLIENT_ID')}")
-logging.debug(f"Auth0 client secret: {os.getenv('AUTH0_CLIENT_SECRET')}")
-logging.debug(f"Auth0 domain: {os.getenv('AUTH0_DOMAIN')}")
-
 
 client = pymongo.MongoClient(CONNECTION_STRING)
 try:
