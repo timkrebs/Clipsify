@@ -21,7 +21,7 @@ def notification(message):
 
         # Construct the mail message content
         mail_message = {
-            "senderAddress": "DoNotReply@snyze.de",
+            "senderAddress": "DoNotReply@clipsify.net",
             "recipients": {
                 "to": [{"address": receiver_address}],
             },
