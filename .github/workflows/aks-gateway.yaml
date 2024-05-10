@@ -15,7 +15,6 @@ env:
         ./app/gateway/manifests/gateway-deploy.yaml
         ./app/gateway/manifests/ingress.yaml
         ./app/gateway/manifests/loadbalancer.yaml
-        ./app/gateway/manifests/secrets.yaml
         ./app/gateway/manifests/service.yaml
 jobs:
     buildImage:
