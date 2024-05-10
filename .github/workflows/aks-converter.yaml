@@ -1,4 +1,4 @@
-name: aks-gateway
+name: aks-converter
 "on":
     push:
         branches:
@@ -9,7 +9,7 @@ env:
     AZURE_CONTAINER_REGISTRY: clipify
     CLUSTER_NAME: akscluster
     CLUSTER_RESOURCE_GROUP: rg-clipify
-    CONTAINER_NAME: gateway
+    CONTAINER_NAME: converter
     DEPLOYMENT_MANIFEST_PATH: |
         ./app/converter/manifests/configmap.yaml
         ./app/converter/manifests/converter-deploy.yaml
