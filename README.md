@@ -1,4 +1,10 @@
 # Clipsify
+[![CodeQL](https://github.com/timkrebs9/Clipsipfy/actions/workflows/codeql.yml/badge.svg)](https://github.com/timkrebs9/Clipsipfy/actions/workflows/codeql.yml)
+[![pre-commit](https://github.com/timkrebs9/Clipsipfy/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/timkrebs9/Clipsipfy/actions/workflows/pre-commit.yml)
+[![aks-converter](https://github.com/timkrebs9/Clipsipfy/actions/workflows/aks-converter.yaml/badge.svg?branch=main)](https://github.com/timkrebs9/Clipsipfy/actions/workflows/aks-converter.yaml)
+[![aks-gateway](https://github.com/timkrebs9/Clipsipfy/actions/workflows/aks-gateway.yaml/badge.svg?branch=main)](https://github.com/timkrebs9/Clipsipfy/actions/workflows/aks-gateway.yaml)
+[![aks-notification](https://github.com/timkrebs9/Clipsipfy/actions/workflows/aks-notification.yaml/badge.svg?branch=main)](https://github.com/timkrebs9/Clipsipfy/actions/workflows/aks-notification.yaml)
+
 
 ## Overview
 
