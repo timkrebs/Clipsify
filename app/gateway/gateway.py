@@ -74,7 +74,7 @@ def upload():
         except Exception as err:
             print(err)
             fs_videos.delete(fid)
-            return "internal server error {err}", 500
+            return f"internal server error {err}", 500
 
         return "success!", 200
     else:
