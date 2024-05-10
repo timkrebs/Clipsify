@@ -1,20 +1,18 @@
 import os
 import sys
-from os import environ as env
 
 import gridfs
 import pika
 import pymongo
 from convert import to_mp3
-from dotenv import find_dotenv, load_dotenv
 
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
+#ENV_FILE = find_dotenv()
+#if ENV_FILE:
+#    load_dotenv(ENV_FILE)
 
 
 def main():
-    CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
+    CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
     client = pymongo.MongoClient(CONNECTION_STRING)
     try:
         client.server_info()  # validate connection string
