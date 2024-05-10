@@ -3,6 +3,8 @@ name: aks-notification
     push:
         branches:
             - main
+        paths:
+            - 'app/notification/**'
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: rg-clipify
