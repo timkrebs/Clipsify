@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: converter
-          image: tim5672s/converter
+          image: clipify.azurecr.io/converter
           envFrom:
             - configMapRef:
                 name: converter-configmap
