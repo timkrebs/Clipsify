@@ -3,8 +3,6 @@ name: aks-gateway
     push:
         branches:
             - main
-        paths:
-            - 'app/gateway/**'
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: rg-clipify

@@ -4,7 +4,7 @@ name: aks-converter
         branches:
             - main
         paths:
-            - 'app/converter/**'
+            - "app/converter/**"
     workflow_dispatch: {}
 env:
     ACR_RESOURCE_GROUP: rg-clipify
