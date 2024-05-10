@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: notification
-          image: tim5672s/notification
+          image: clipify.azurecr.io/notification
           envFrom:
             - configMapRef:
                 name: notification-configmap
