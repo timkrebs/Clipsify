@@ -8,10 +8,8 @@
 {% endmacro %}
 
 <div class="nav-bar__tabs">
-  {{ tab(label="Profile", path=url_for('webapp.profile')) }}
-  {{ tab(label="Public", path=url_for('webapp.public')) }}
   {% if session.user %}
-    {{ tab(label="Protected", path=url_for('webapp.protected')) }}
-    {{ tab(label="Admin", path=url_for('webapp.admin')) }}
+    {{ tab(label="Profile", path=url_for('profile')) }}
+    {{ tab(label="Settings", path=url_for('admin')) }}
   {% endif %}
 </div>

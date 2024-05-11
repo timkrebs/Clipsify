@@ -1,0 +1,41 @@
+
+
+{% extends "base.html" %}
+{% from "code_snippet.html" import code_snippet %}
+
+{% block content %}
+<div class="content-layout">
+  <h1 id="page-title" class="content__title">Welcome {{ user_profile.nickname }}</h1>
+  <div class="content__body">
+    <!-- Instructions for uploading files -->
+    <div class="upload-instructions">
+      <h3 class="content__title">Upload Your MP4 File</h3>
+      <p id="page-description">To convert your video file to audio, please upload your MP4 <br /> file using the button below. Once uploaded, the file will be processed,  <br /> and you will receive an ID that you can use to download the converted MP3 file.</p>
+    </div>
+
+    <!-- Upload form -->
+    <div class="form-wrapper">
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="upload-file">Choose a file to upload:</label>
+        <input type="file" name="file" id="upload-file" required>
+        <button type="submit" class="button">Upload File</button>
+      </form>
+    </div>
+
+    <!-- Instructions for downloading files -->
+    <div class="download-instructions">
+      <h3 class="content__title">Download Your MP3 File</h3>
+      <p id="page-description">If you have already uploaded a file and received a file ID, <br /> enter the ID below to download your converted MP3 file.</p>
+    </div>
+
+    <!-- Download form -->
+    <div class="form-wrapper">
+      <form action="/download" method="get">
+        <label for="fid">Enter the file ID to download:</label>
+        <input type="text" name="fid" id="fid" placeholder="File ID" required>
+        <button type="submit" class="button">Download File</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
