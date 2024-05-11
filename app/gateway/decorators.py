@@ -17,7 +17,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if session.get("user") is None:
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("login"))
 
         return f(*args, **kwargs)
 
