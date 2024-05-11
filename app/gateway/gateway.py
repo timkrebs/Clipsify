@@ -75,7 +75,7 @@ def upload():
             fs_videos.delete(fid)
             return redirect(url_for('home'))
 
-        return redirect(url_for('home'))
+        return redirect(url_for('profile'))
     else:
         flash("Not authorized", "error")
         return redirect(url_for('home'))
@@ -91,7 +91,7 @@ def download():
 
         if not fid_string:
             flash("File ID is required.", "error")
-            return redirect(url_for('home'))
+            return redirect(url_for('profile'))
 
         try:
             out = fs_mp3s.get(ObjectId(fid_string))

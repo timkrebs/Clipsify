@@ -153,6 +153,22 @@ code {
   }
 }
 
+.flashes {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.flashes li {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+
 /* Forms General Style */
 .form-wrapper {
   padding: 20px;
