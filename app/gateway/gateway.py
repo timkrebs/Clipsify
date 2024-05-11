@@ -141,7 +141,7 @@ def home():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
-    return redirect("/")
+    return redirect("/profile")
 
 
 @server.route("/login", methods=["GET"])
@@ -154,12 +154,12 @@ def logout():
     session.clear()
     return redirect(
         "https://"
-        + os.getenv("AUTH0_DOMAIN")#env.get("AUTH0_DOMAIN")
+        + os.getenv("AUTH0_DOMAIN")
         + "/v2/logout?"
         + urlencode(
             {
                 "returnTo": url_for("home", _external=True),
-                "client_id": os.getenv("AUTH0_CLIENT_ID") #env.get("AUTH0_CLIENT_ID"),
+                "client_id": os.getenv("AUTH0_CLIENT_ID")
             },
             quote_via=quote_plus,
         )
