@@ -9,7 +9,8 @@ from bson.objectid import ObjectId
 from services.message_service import MessageService
 from decorators import requires_auth
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, redirect, render_template, request, send_file, session, url_for
+from flask import flash, redirect, url_for
+from flask import Flask, render_template, request, send_file, session
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -44,23 +45,23 @@ def upload():
 
     if user_profile:
         if "file" not in request.files or request.files["file"].filename == "":
-            return "exactly 1 file required", 400
+            flash("Exactly one file required.", "error")
+            return redirect(url_for('home'))  # Angenommen, 'home' ist die Route der aktuellen Seite
         file = request.files["file"]
 
         try:
             fid = fs_videos.put(file, filename=file.filename)
-            print(f"File uploaded successfully, file ID: {fid}")
+            flash(f"File uploaded successfully, file ID: {fid}", "success")
 
         except Exception as e:
-            print(f"Error uploading file: {e}")
-            return "internal server error - upload not successful", 500
+            flash(f"Internal server error - upload not successful. {e}", "error")
+            return redirect(url_for('home'))
 
         message = {
             "video_fid": str(fid),
             "mp3_fid": None,
             "username": user_profile["userinfo"]["email"],
         }
-        print(f"Message: {message}")
 
         try:
             channel.basic_publish(
@@ -70,13 +71,14 @@ def upload():
                 properties=pika.BasicProperties(delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE),
             )
         except Exception as err:
-            print(err)
+            flash(f"Internal server error: {err}", "error")
             fs_videos.delete(fid)
-            return f"internal server error {err}", 500
+            return redirect(url_for('home'))
 
-        return "success!", 200
+        return redirect(url_for('home'))
     else:
-        return "not authorized", 401
+        flash("Not authorized", "error")
+        return redirect(url_for('home'))
 
 
 @server.route("/download", methods=["GET"])
@@ -88,16 +90,18 @@ def download():
         fid_string = request.args.get("fid")
 
         if not fid_string:
-            return "fid is required", 400
+            flash("File ID is required.", "error")
+            return redirect(url_for('home'))
 
         try:
             out = fs_mp3s.get(ObjectId(fid_string))
             return send_file(out, download_name=f"{fid_string}.mp3")
         except Exception as err:
-            print(err)
-            return "internal server error", 500
+            flash(f"Internal server error. {err}", "error")
+            return redirect(url_for('home'))
 
-    return "not authorized", 401
+    flash("Not authorized", "error")
+    return redirect(url_for('home'))
 
 def to_pretty_json(value):
     return json.dumps(value, sort_keys=True, indent=4)
