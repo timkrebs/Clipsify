@@ -35,17 +35,21 @@
     <!-- Instructions for downloading files -->
     <div class="download-instructions">
       <h3 class="content__title">Download Your MP3 File</h3>
-      <p id="page-description">If you have already uploaded a file and received a file ID, enter the ID below to download your converted MP3 file.</p>
+      <p id="page-description">If you have already uploaded a file and received a file ID, you can download your converted MP3 file by confirming the action below.</p>
     </div>
 
-    <!-- Download form -->
+    <!-- Download button with JavaScript confirmation -->
     <div class="form-wrapper">
-      <form action="/download" method="get">
-        <label for="fid">Enter the file ID to download:</label>
-        <input type="text" name="fid" id="fid" placeholder="File ID" required>
-        <button type="submit" class="button">Download File</button>
-      </form>
+      <button onclick="startDownload('{{ file_id }}')" class="button">Download MP3</button>
     </div>
+
+    <script>
+    function startDownload(fid) {
+      if (confirm('Möchten Sie die Datei wirklich herunterladen?')) {
+        window.location.href = `/download?fid=${fid}`;
+      }
+    }
+    </script>
   </div>
 </div>
 {% endblock %}
