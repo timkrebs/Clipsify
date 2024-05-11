@@ -1,25 +1,26 @@
-
-
 {% extends "base.html" %}
 {% from "code_snippet.html" import code_snippet %}
-
-{% if get_flashed_messages() %}
-  <ul class="flashes">
-  {% for message, category in get_flashed_messages(with_categories=true) %}
-    <li class="{{ category }}">{{ message }}</li>
-  {% endfor %}
-  </ul>
-{% endif %}
-
 
 {% block content %}
 <div class="content-layout">
   <h1 id="page-title" class="content__title">Welcome {{ user_profile.nickname }}</h1>
+
+  <!-- Display flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
   <div class="content__body">
     <!-- Instructions for uploading files -->
     <div class="upload-instructions">
       <h3 class="content__title">Upload Your MP4 File</h3>
-      <p id="page-description">To convert your video file to audio, please upload your MP4 <br /> file using the button below. Once uploaded, the file will be processed,  <br /> and you will receive an ID that you can use to download the converted MP3 file.</p>
+      <p id="page-description">To convert your video file to audio, please upload your MP4 file using the button below. Once uploaded, the file will be processed, and you will receive an ID that you can use to download the converted MP3 file.</p>
     </div>
 
     <!-- Upload form -->
@@ -34,7 +35,7 @@
     <!-- Instructions for downloading files -->
     <div class="download-instructions">
       <h3 class="content__title">Download Your MP3 File</h3>
-      <p id="page-description">If you have already uploaded a file and received a file ID, <br /> enter the ID below to download your converted MP3 file.</p>
+      <p id="page-description">If you have already uploaded a file and received a file ID, enter the ID below to download your converted MP3 file.</p>
     </div>
 
     <!-- Download form -->
