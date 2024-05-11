@@ -46,7 +46,7 @@ def upload():
     if user_profile:
         if "file" not in request.files or request.files["file"].filename == "":
             flash("Exactly one file required.", "error")
-            return redirect(url_for('home'))  # Angenommen, 'home' ist die Route der aktuellen Seite
+            return redirect(url_for('profile'))
         file = request.files["file"]
 
         try:
@@ -55,7 +55,7 @@ def upload():
 
         except Exception as e:
             flash(f"Internal server error - upload not successful. {e}", "error")
-            return redirect(url_for('home'))
+            return redirect(url_for('profile'))
 
         message = {
             "video_fid": str(fid),
@@ -73,7 +73,7 @@ def upload():
         except Exception as err:
             flash(f"Internal server error: {err}", "error")
             fs_videos.delete(fid)
-            return redirect(url_for('home'))
+            return redirect(url_for('profile'))
 
         return redirect(url_for('profile'))
     else:
