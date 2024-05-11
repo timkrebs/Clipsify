@@ -1,12 +1,12 @@
 import json
 import os
 from urllib.parse import quote_plus, urlencode
-
 import gridfs
 import pika
 import pymongo
 from authlib.integrations.flask_client import OAuth
 from bson.objectid import ObjectId
+from services.message_service import MessageService
 from decorators import requires_auth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, request, send_file, session, url_for
@@ -16,15 +16,14 @@ if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 server = Flask(__name__)
-#server.secret_key = env.get("APP_SECRET_KEY")
-#CONNECTION_STRING = env.get("MONGO_CONNECTION_STRING")
+
 server.secret_key = os.getenv("APP_SECRET_KEY")
 CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
 
 
 client = pymongo.MongoClient(CONNECTION_STRING)
 try:
-    client.server_info()  # validate connection string
+    client.server_info()
 except pymongo.errors.ServerSelectionTimeoutError:
     raise TimeoutError(
         "Invalid API for MongoDB connection string or timed out when \
@@ -34,7 +33,6 @@ video_db = client["videos"]
 mp3_db = client["mp3"]
 fs_videos = gridfs.GridFS(video_db)
 fs_mp3s = gridfs.GridFS(mp3_db)
-
 connection = pika.BlockingConnection(pika.ConnectionParameters("rabbitmq"))
 channel = connection.channel()
 
@@ -101,14 +99,26 @@ def download():
 
     return "not authorized", 401
 
+def to_pretty_json(value):
+    return json.dumps(value, sort_keys=True, indent=4)
+
+server.jinja_env.filters['to_pretty_json'] = to_pretty_json
+
+@server.route("/profile", methods=["GET"])
+@requires_auth
+def profile():
+    return render_template('profile.html', user_profile=session.get('user').get("userinfo"))
+
+@server.route("/settings", methods=["GET"])
+@requires_auth
+def admin():
+    return render_template('admin.html', user_profile=session.get('user').get("userinfo"), message=MessageService().admin_message())
 
 oauth = OAuth(server)
 
 oauth.register(
     "auth0",
-    #client_id=env.get("AUTH0_CLIENT_ID"),
-    #client_secret=env.get("AUTH0_CLIENT_SECRET")
-    client_id = os.getenv("AUTH0_CLIENT_ID"),
+    client_id=os.getenv("AUTH0_CLIENT_ID"),
     client_secret=os.getenv("AUTH0_CLIENT_SECRET"),
     client_kwargs={
         "scope": "openid profile email",
@@ -118,13 +128,9 @@ oauth.register(
 
 
 # Controllers API
-@server.route("/")
+@server.route("/", methods=["GET"])
 def home():
-    return render_template(
-        "home.html",
-        session=session.get("user"),
-        pretty=json.dumps(session.get("user"), indent=4),
-    )
+    return render_template("home.html")
 
 
 @server.route("/callback", methods=["GET", "POST"])
@@ -134,12 +140,12 @@ def callback():
     return redirect("/")
 
 
-@server.route("/login")
+@server.route("/login", methods=["GET"])
 def login():
     return oauth.auth0.authorize_redirect(redirect_uri=url_for("callback", _external=True))
 
 
-@server.route("/logout")
+@server.route("/logout", methods=["GET"])
 def logout():
     session.clear()
     return redirect(
