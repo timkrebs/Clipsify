@@ -32,7 +32,7 @@ def notification(message):
                       </p>
                       <h1>Welcome to Clipsify!</h1>
                       <p>Here is your Download ID: 
-                      <p> {mp3_fid} </p>
+                      <p><b> {mp3_fid} <b></p>
                       <p> Please click the following link to download your file:</p>
                       <p><a href="http://clipsify.net/">Clipsify</a></p>
                       <br />
