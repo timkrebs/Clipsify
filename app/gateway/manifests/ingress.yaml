@@ -7,10 +7,21 @@ metadata:
 spec:
   tls:
   - hosts:
-      - www.clipsify.net
-    secretName: www-clipsify-net-tls
+      - www.clipsfy.com
+      - clipsfy.com
+    secretName: www-clipsfy-com-tls
   rules:
-    - host: www.clipsify.net
+    - host: www.clipsfy.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 80
+    - host: clipsfy.com
       http:
         paths:
           - path: /

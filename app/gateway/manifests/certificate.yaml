@@ -1,12 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: www-clipsify-net
+  name: www-clipsfy-com
   namespace: default
 spec:
-  secretName: www-clipsify-net-tls
+  secretName: www-clipsfy-com-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - www.clipsify.net
+    - www.clipsfy.com
+    - clipsfy.com
