@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: tim5672s/auth
+          image: awakepegasusacr.azurecr.io/auth
           ports:
             - containerPort: 5000
           envFrom:
