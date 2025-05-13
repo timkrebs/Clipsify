@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: gateway
-          image: clipify.azurecr.io/gateway
+          image: awakepegasusacr.azurecr.io/gateway
           envFrom:
             - configMapRef:
                 name: gateway-configmap
