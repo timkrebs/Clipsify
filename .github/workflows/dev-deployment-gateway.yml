@@ -52,7 +52,7 @@ env:
     ./app/gateway/manifests/loadbalancer.yaml
     ./app/gateway/manifests/service.yaml
   DOCKER_FILE: ./app/gateway/Dockerfile
-  BUILD_CONTEXT_PATH: ./
+  BUILD_CONTEXT_PATH: ./gateway/
   NAMESPACE: default
   ENABLENAMESPACECREATION: false
   AUTH_TYPE: SERVICE_PRINCIPAL
