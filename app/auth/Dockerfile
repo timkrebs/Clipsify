@@ -1,14 +1,32 @@
-FROM python:3.13-bullseye
+FROM python:3-slim
 
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends --no-install-suggests \
-  && pip install --no-cache-dir --upgrade pip
+WORKDIR /home/app
 
-WORKDIR /app
-COPY ./requirements.txt /app
-RUN pip install --no-cache-dir --requirement /app/requirements.txt
-COPY . /app
+# Update package list and install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 5000
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
 
-CMD ["python3", "authserver.py"]
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application files
+COPY . .
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /home/app
+USER appuser
+
+# Expose port
+EXPOSE 3000
+
+# Run the application
+CMD ["python", "server.py"]
