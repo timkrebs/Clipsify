@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Clipsify</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #353740;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            padding: 20px 0;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #353740;
+            transition: all 0.2s ease;
+        }
+
+        .user-profile:hover {
+            background: #e9ecef;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #353740;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        /* Main Dashboard */
+        .dashboard {
+            padding: 40px 0;
+        }
+
+        .dashboard-header {
+            margin-bottom: 40px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+
+        .card-header {
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Upload Section */
+        .upload-zone {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            background: #fafafa;
+        }
+
+        .upload-zone:hover {
+            border-color: #000;
+            background: #f5f5f5;
+        }
+
+        .upload-zone.drag-over {
+            border-color: #000;
+            background: #f0f9ff;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            background: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .upload-text {
+            margin-bottom: 16px;
+        }
+
+        .upload-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a1a1a;
+            transform: translateY(-1px);
+        }
+
+        /* File List */
+        .file-list {
+            margin-top: 24px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .file-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-processing {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .user-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .user-profile {
+                order: 2;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #000;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="logo">🎬 Clipsify</a>
+                <div class="user-nav">
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            {{ session.userinfo.name[0].upper() if session.userinfo.name else 'U' }}
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">{{ session.userinfo.name or 'User' }}</div>
+                            <div class="user-email">{{ session.userinfo.email or 'No email' }}</div>
+                        </div>
+                    </div>
+                    <a href="/logout" class="btn btn-secondary">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>Welcome back, {{ session.userinfo.name.split()[0] if session.userinfo.name else 'User' }}!</h1>
+                <p>Upload your videos and convert them to high-quality audio files instantly.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Videos Converted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2.4GB</div>
+                    <div class="stat-label">Total Size Processed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">45min</div>
+                    <div class="stat-label">Audio Generated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Upload Section -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Upload Video</h2>
+                        <p class="card-description">Drag and drop your video files or click to browse</p>
+                    </div>
+                    
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" class="file-input" id="fileInput" accept="video/*" multiple>
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">
+                            <div class="upload-title">Choose video files</div>
+                            <div class="upload-subtitle">MP4, MOV, AVI up to 500MB</div>
+                        </div>
+                        <button class="btn-primary" type="button">Browse Files</button>
+                    </div>
+
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <!-- Recent Conversions -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Conversions</h2>
+                        <p class="card-description">Your latest video to audio conversions</p>
+                    </div>
+                    
+                    <div class="file-list">
+                        <div class="file-item">
+                            <div class="file-info">
+                                <div class="file-icon">🎵</div>
+                                <div class="file-details">
+                                    <div class="file-name">presentation_audio.mp3</div>
+                                    <div class="file-size">4.2 MB • 3 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="file-status status-completed">Completed</div>
+                        </div>
+
+                        <div class="file-item">
+                            <div class="file-info">
+                                <div class="file-icon">🎵</div>
+                                <div class="file-details">
+                                    <div class="file-name">interview_audio.mp3</div>
+                                    <div class="file-size">12.8 MB • 1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="file-status status-completed">Completed</div>
+                        </div>
+
+                        <div class="file-item">
+                            <div class="file-info">
+                                <div class="file-icon">⏳</div>
+                                <div class="file-details">
+                                    <div class="file-name">webinar_audio.mp3</div>
+                                    <div class="file-size">8.5 MB • Processing...</div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="file-status status-processing">Processing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // File Upload Functionality
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        
+        // Click to upload
+        uploadZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Drag and drop
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('drag-over');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('drag-over');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('drag-over');
+            
+            const files = Array.from(e.dataTransfer.files);
+            handleFiles(files);
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            files.forEach(file => {
+                if (file.type.startsWith('video/')) {
+                    addFileToList(file);
+                    uploadFile(file);
+                } else {
+                    alert('Please select video files only.');
+                }
+            });
+        }
+
+        function addFileToList(file) {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-details">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${formatFileSize(file.size)} • Uploading...</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="file-status status-processing">Uploading</div>
+            `;
+            
+            fileList.appendChild(fileItem);
+        }
+
+        function uploadFile(file) {
+            // Simulate file upload with progress
+            const progressBar = fileList.lastElementChild.querySelector('.progress-fill');
+            const statusElement = fileList.lastElementChild.querySelector('.file-status');
+            const sizeElement = fileList.lastElementChild.querySelector('.file-size');
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    statusElement.textContent = 'Converting';
+                    statusElement.className = 'file-status status-processing';
+                    sizeElement.textContent = `${formatFileSize(file.size)} • Converting to MP3...`;
+                    
+                    // Simulate conversion
+                    setTimeout(() => {
+                        statusElement.textContent = 'Completed';
+                        statusElement.className = 'file-status status-completed';
+                        sizeElement.textContent = `${formatFileSize(file.size * 0.1)} • Completed`;
+                        progressBar.parentElement.style.display = 'none';
+                    }, 3000);
+                }
+                progressBar.style.width = progress + '%';
+            }, 200);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>
