@@ -9,23 +9,10 @@ variable "password" {
   description = "Azure Kubernetes Service Cluster password"
 }
 
-variable "subscription_id" {
-  description = "Azure subscription ID"
-}
-
 variable "tenant_id" {
-  description = "Azure tenant ID"
+  description = "Azure Tenant ID"
 }
 
-variable "useAPIM" {
-  description = "Flag to use Azure API Management to mediate the calls between the Web frontend and the backend API."
-  type        = bool
-  default     = false
+variable "subscription_id" {
+  description = "Azure Subscription ID"
 }
-
-variable "apimSKU" {
-  description = "Azure API Management SKU. Only used if useAPIM is true."
-  type        = string
-  default     = "Consumption"
-}
-
