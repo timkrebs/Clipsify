@@ -40,7 +40,7 @@ resource "azurerm_resource_group" "clipsify" {
 # Deploy Azure Container Registry
 # ------------------------------------------------------------------------------------------------------
 resource "azurerm_container_registry" "clipsify" {
-  name                = "${replace(random_pet.prefix.id, "-", "")}acr"
+  name                = "${replace(azurerm_resource_group.clipsify.name, "-", "")}acr"
   resource_group_name = azurerm_resource_group.clipsify.name
   location            = azurerm_resource_group.clipsify.location
   sku                 = "Basic"
@@ -54,10 +54,10 @@ resource "azurerm_container_registry" "clipsify" {
 # Deploy AKS cluster
 # ------------------------------------------------------------------------------------------------------
 resource "azurerm_kubernetes_cluster" "clipsify" {
-  name                = "${random_pet.prefix.id}-aks"
+  name                = "${azurerm_resource_group.clipsify.name}-aks"
   location            = azurerm_resource_group.clipsify.location
   resource_group_name = azurerm_resource_group.clipsify.name
-  dns_prefix          = "${random_pet.prefix.id}-k8s"
+  dns_prefix          = "${azurerm_resource_group.clipsify.name}-k8s"
   kubernetes_version  = "1.32.0"
 
   default_node_pool {
@@ -78,4 +78,3 @@ resource "azurerm_kubernetes_cluster" "clipsify" {
     environment = "Dev"
   }
 }
-
